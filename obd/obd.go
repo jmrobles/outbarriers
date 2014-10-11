@@ -10,6 +10,7 @@ func main() {
 	log.Printf("Outbarriers Server")
 	ctx := outbarriers.NewContext()
 	ctx.Init()
+	ctx.SetupUserEP()
 	err := ctx.StartDB()
 	if err != nil {
 		log.Fatal("Can't connect to DB")

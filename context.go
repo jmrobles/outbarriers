@@ -6,13 +6,10 @@ import (
 )
 
 type Context struct {
-	Handler *gin.Engine
-	REST    *gin.RouterGroup
-	DB      gorm.DB
-	/*
-		DB gorm.DB
-		REST *gin.RouterGroup
-	*/
+	Handler  *gin.Engine
+	REST     *gin.RouterGroup
+	DB       gorm.DB
+	UserREST *gin.RouterGroup
 }
 
 func NewContext() *Context {

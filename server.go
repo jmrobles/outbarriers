@@ -17,6 +17,7 @@ func (c *Context) Init() {
 	c.Handler = gin.Default()
 	c.Handler.Use(SetContext(c))
 	c.REST = c.Handler.Group("/v1")
+
 }
 
 func (c *Context) Start() {
