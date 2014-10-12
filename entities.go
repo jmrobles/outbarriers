@@ -42,3 +42,13 @@ func (ctx *Context) LoginUser(user *User) string {
 	ctx.DB.Create(session)
 	return token
 }
+
+func (ctx *Context) GetSessionByToken(token string) *Session {
+
+	var session Session
+	ctx.DB.Where("token = ?", token).First(&session)
+	if session.Id == 0 {
+		return nil
+	}
+	return &session
+}

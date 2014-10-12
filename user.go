@@ -26,10 +26,37 @@ func doLogin(c *gin.Context) {
 		c.JSON(401, gin.H{"status": false})
 	}
 }
+func doAuth(c *gin.Context) {
+
+	//c.JSON(200, gin.H{"status": true})
+	method := c.Request.Header.Get("X-Original-Request-Method")
+	//log.Printf("Auth method: %s", method)
+	if method == "GET" {
+		c.Writer.WriteHeader(200)
+		return
+	}
+	token := c.Request.Header.Get("X-Auth-Token")
+	if token == "" {
+		c.Writer.WriteHeader(403)
+		return
+	}
+	ctx := c.MustGet("Context").(*Context)
+	// Get session
+	session := ctx.GetSessionByToken(token)
+	if session == nil {
+		c.Writer.WriteHeader(403)
+		return
+	}
+	// TODO: check for expired time
+	c.Writer.WriteHeader(200)
+}
+
 func (c *Context) SetupUserEP() {
 
 	// Login
 	c.REST.POST("/login", doLogin)
+	// Auth
+	c.REST.GET("/auth", doAuth)
 	c.UserREST = c.REST.Group("user")
 
 }
